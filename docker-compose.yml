@@ -1,0 +1,18 @@
+services:
+  catalog-api:
+    build:
+      context: .
+      dockerfile: ./catalog-api/Dockerfile
+    ports: ["4000:4000"]
+
+  cart-api:
+    build: ./cart-api
+    environment:
+      - CATALOG_URL=http://catalog-api:4000
+    ports: ["4001:4001"]
+    depends_on: [catalog-api]
+
+  frontend:
+    build: ./frontend
+    ports: ["8080:80"]
+    depends_on: [catalog-api, cart-api]

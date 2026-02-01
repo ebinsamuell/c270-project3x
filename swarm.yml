@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  catalog-api:
+    image: c270-gamestore-catalog-api
+    deploy:
+      replicas: 2
+    ports: ["4000:4000"]
+
+  cart-api:
+    image: c270-gamestore-cart-api
+    deploy:
+      replicas: 2
+    environment:
+      - CATALOG_URL=http://catalog-api:4000
+    ports: ["4001:4001"]
+
+  frontend:
+    image: c270-gamestore-frontend
+    deploy:
+      replicas: 1
+    ports: ["8080:80"]
